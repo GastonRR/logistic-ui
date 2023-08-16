@@ -14,11 +14,10 @@ const navigation = [
 interface Props {
   isOpen: boolean;
   onClose: React.Dispatch<React.SetStateAction<boolean>>;
+  currentUrl: string;
 }
 
-const SideBar = ({ isOpen, onClose }: Props) => {
-  const currentUrl = window.location.pathname;
-
+const SideBar = ({ isOpen, onClose, currentUrl }: Props) => {
   return (
     <>
       <SideBarMobileView
