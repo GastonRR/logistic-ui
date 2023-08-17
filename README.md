@@ -38,3 +38,13 @@ npm dev
 >
 > - "Shipping Promise Ending Report"
 > - "Traveling Reporting Tool"
+
+## **Documentation**
+
+### Services
+
+Rest services to use the api
+
+- ReportService - to handler the request for get the reports
+- OrderService - to handler the request to get the orders and properties
+- HandlerJsonService - to handler the parse json on csv
