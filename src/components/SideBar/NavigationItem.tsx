@@ -1,6 +1,4 @@
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "@utils/index";
 
 type IconSVGProps = React.PropsWithoutRef<React.SVGProps<SVGSVGElement>> &
   React.RefAttributes<SVGSVGElement>;
