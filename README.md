@@ -1,27 +1,40 @@
-# React + TypeScript + Vite
+# Logistic UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Short description**
 
-Currently, two official plugins are available:
+> Logistics UI, website to view order tracking management. made in React + TypeScript + Vite + tailwindui
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### **Getting Start**
 
-## Expanding the ESLint configuration
+**_First, Install dependencies:_**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```bash
+npm install
+or
+yarn install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+**_Run project_**
+
+```bash
+yarn dev
+or
+npm dev
+```
+
+## Content Page
+
+**Home ( / )**
+
+> Table to see all Orders and redirect Order Detail
+
+**Order Detail (order/:id)**
+
+> Table to see the items and properties associated with the order
+
+**Reports /report**
+
+> Page to download two specific reports in csv format
+>
+> - "Shipping Promise Ending Report"
+> - "Traveling Reporting Tool"
