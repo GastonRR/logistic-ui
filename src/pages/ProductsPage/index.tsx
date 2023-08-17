@@ -1,5 +1,7 @@
 import { LocationStates } from "@routes/types";
 import { formatCurrency } from "@utils/index";
+import axios, { AxiosError } from "axios";
+import useToast from "hooks/useToast";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { OrderService } from "services/orderServices";
@@ -11,6 +13,8 @@ const ProductsPage = () => {
   const orderService = new OrderService();
   const [items, setItem] = useState<OrderItem[] | undefined>();
   const { id } = useParams<QueryParamType>();
+
+  const { errorToast } = useToast();
 
   const totalPrice = useMemo(() => {
     if (!items) return 0;
@@ -26,7 +30,15 @@ const ProductsPage = () => {
         const usersData = await orderService.getOrderById(id);
         setItem(usersData.items);
       } catch (error) {
-        console.log(error);
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data?.message) {
+            errorToast(error.response?.data?.message);
+          } else {
+            errorToast(error.message);
+          }
+        } else {
+          errorToast("Error getting the order, please try again later");
+        }
       }
     }
 

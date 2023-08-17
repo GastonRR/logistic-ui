@@ -3,6 +3,7 @@ import TopBar from "@components/TopBar";
 import MyRouter from "@routes/index";
 import { Path } from "@routes/types";
 import { useState } from "react";
+import { Toaster } from "sonner";
 
 function App() {
   const currentUrl = window.location.pathname;
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <div className="bg-white text-base text-neutral-900">
+      <Toaster closeButton richColors />
       <div>
         <SideBar
           isOpen={sidebarOpen}

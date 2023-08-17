@@ -1,40 +1,16 @@
 import { Input } from "@components/Input";
+import { dowloadOrdersReport } from "@utils/index";
+import useToast from "hooks/useToast";
 import { useState } from "react";
-import HandlerJsonService from "services/handlerJsonService";
 import { ReportService } from "services/reportService";
-import { Order } from "types/types";
 
 export default function ReportsPage() {
   const reportsService = new ReportService();
-  const handlerJsonService = new HandlerJsonService();
+  const { errorToast, successToast } = useToast();
   const [value, setValue] = useState({
     startDate: "",
     endDate: "",
   });
-
-  const dowloadOrdersReport = async (orderData: Order[]) => {
-    const parseJsonWithHeaders = orderData.map((order) => {
-      return {
-        "Order ID": order.id,
-        Client: order.clientName,
-        Status: order.status,
-        "Shipping Address": order.shippingAddress,
-        "Shipping Promise": order.shippingPromise,
-        "Nro Items": order.quantity,
-      };
-    });
-
-    const csv = await handlerJsonService.convertJsonToCsv({
-      json: parseJsonWithHeaders,
-    });
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "report.csv");
-    link.click();
-  };
 
   const reports = [
     {
@@ -47,8 +23,9 @@ export default function ReportsPage() {
           try {
             const orderData = await reportsService.getOrderDueSoon();
             await dowloadOrdersReport(orderData);
-          } catch (error) {
-            console.log(error);
+            successToast("Report downloaded successfully");
+          } catch {
+            errorToast("Error getting the report, please try again later");
           }
         },
       },
@@ -88,8 +65,9 @@ export default function ReportsPage() {
             });
 
             await dowloadOrdersReport(orderData);
-          } catch (error) {
-            console.log(error);
+            successToast("Report downloaded successfully");
+          } catch {
+            errorToast("Error getting the report, please try again later");
           }
         },
       },
@@ -115,7 +93,9 @@ export default function ReportsPage() {
             <form className="mt-5">
               <div className="flex flex-col gap-5  mt-4 md:mt-0 md:flex-row md:items-center">
                 {report.inputs &&
-                  report.inputs.map((input) => <Input {...input} />)}
+                  report.inputs.map((input, index) => (
+                    <Input key={index} {...input} />
+                  ))}
               </div>
             </form>
           </div>

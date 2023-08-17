@@ -1,4 +1,6 @@
-import { classNames } from "@utils/index";
+import { classNames, dowloadOrdersReport } from "@utils/index";
+import axios from "axios";
+import useToast from "hooks/useToast";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { OrderService } from "services/orderServices";
@@ -34,13 +36,23 @@ export default function OrderPage() {
   const orderService = new OrderService();
   const [orders, setOrders] = useState<Order[] | undefined>();
 
+  const { errorToast } = useToast();
+
   useEffect(() => {
     async function fetchOrders() {
       try {
         const usersData = await orderService.getAllOrders();
         setOrders(usersData);
       } catch (error) {
-        console.log(error);
+        if (axios.isAxiosError(error)) {
+          if (error.response?.data?.message) {
+            errorToast(error.response?.data?.message);
+          } else {
+            errorToast(error.message);
+          }
+        } else {
+          errorToast("Error getting orders, please try again later");
+        }
       }
     }
 
@@ -60,8 +72,12 @@ export default function OrderPage() {
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
+            disabled={!orders}
             type="button"
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={() => {
+              orders && dowloadOrdersReport(orders);
+            }}
           >
             Export
           </button>
